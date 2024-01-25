@@ -1,0 +1,11 @@
+name: res
+description: Result class that stops errors from throwing by returning either a value or an error
+version: 1.0.1
+repository: https://github.com/mohiuddinm/res
+
+environment:
+  sdk: ^3.0.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
