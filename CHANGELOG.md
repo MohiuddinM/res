@@ -1,3 +1,7 @@
+## 1.1.0
+
+- fromFuture can also take a `Future Function()`
+
 ## 1.0.1
 
 - Format files
