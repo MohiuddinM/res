@@ -7,17 +7,11 @@ Future<int> throws() async {
   throw Error();
 }
 
-Future<int> noThrow() async {
-  return 0;
-}
+Future<int> noThrow() async => 0;
 
-Result<void, String> voidOk() {
-  return Result.ok();
-}
+Result<void, String> voidOk() => const Result.ok();
 
-Result<void, String> voidError() {
-  return Result.err('Error');
-}
+Result<void, String> voidError() => const Result.err('Error');
 
 Future<void> futureVoidOk() async {}
 

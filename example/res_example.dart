@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:res/res.dart';
@@ -20,10 +22,10 @@ Future<Result<int, String>> functionThatDoesNotThrow() async {
   }
 
   // Or shorter
-  return Result.fromFuture(
-    functionThatCanThrowError(),
-    error: (e, s) => 'Out of Range',
-  );
+  // return Result.fromFuture(
+  //   functionThatCanThrowError(),
+  //   error: (e, s) => 'Out of Range',
+  // );
 }
 
 void main() async {

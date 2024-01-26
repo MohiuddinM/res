@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
+
+@immutable
 class Result<R, S> {
   const Result.ok([this._value])
       : assert(_value != null || Future<R> == Future<void>),
@@ -12,7 +15,7 @@ class Result<R, S> {
 
   static Future<Result<R, S>> fromFuture<R, S>(
     Future<R> future, {
-    required S Function(dynamic error, StackTrace) error,
+    required S Function(dynamic, StackTrace) error,
   }) async {
     try {
       return Result.ok(await future);
@@ -31,11 +34,8 @@ class Result<R, S> {
   S get error => _error!;
 
   @override
-  bool operator ==(Object other) {
-    return other is Result<R, S> &&
-        other._value == _value &&
-        other._error == _error;
-  }
+  bool operator ==(Object other) =>
+      other is Result<R, S> && other._value == _value && other._error == _error;
 
   @override
   int get hashCode => Object.hash(_value, _error);
