@@ -1,3 +1,7 @@
+## 1.2.0
+
+- add fromAsyncCallback for `Future Function()`
+
 ## 1.1.0
 
 - fromFuture can also take a `Future Function()`
