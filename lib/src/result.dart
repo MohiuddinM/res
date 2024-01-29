@@ -22,21 +22,28 @@ class Result<R, S> {
   /// If [future] completes successfully then [Result] will contain its value,
   /// and if the [future] fails then its error will be contained in [Result]
   static Future<Result<R, S>> fromFuture<R, S>(
-    dynamic future, {
+    Future<R> future, {
     required S Function(dynamic e, StackTrace s) error,
   }) async {
-    assert(
-      future is Future<R> || future is Future<R> Function(),
-      'future can only be a "Future<$R>" or a "Future<$R> Function()"',
-    );
     try {
-      return Result.ok(
-        future is Future<R>
-            ? await future
-            : await (future as Future<R> Function()).call(),
-      );
+      return Result<R, S>.ok(await future);
     } catch (e, s) {
-      return Result.err(error(e, s));
+      return Result<R, S>.err(error(e, s));
+    }
+  }
+
+  /// Create a [Result] from a callback that returns a [Future].
+  ///
+  /// If [future] completes successfully then [Result] will contain its value,
+  /// and if the [future] fails then its error will be contained in [Result]
+  static Future<Result<R, S>> fromAsyncCallback<R, S>(
+    Future<R> Function() future, {
+    required S Function(dynamic e, StackTrace s) error,
+  }) async {
+    try {
+      return Result<R, S>.ok(await future.call());
+    } catch (e, s) {
+      return Result<R, S>.err(error(e, s));
     }
   }
 
