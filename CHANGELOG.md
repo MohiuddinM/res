@@ -1,3 +1,7 @@
+## 1.2.1
+
+- add toString method
+
 ## 1.2.0
 
 - add fromAsyncCallback for `Future Function()`
