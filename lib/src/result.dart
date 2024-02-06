@@ -67,4 +67,7 @@ class Result<R, S> {
 
   @override
   int get hashCode => Object.hash(_value, _error);
+
+  @override
+  String toString() => isError ? 'Result.err($error)' : 'Result.ok($value)';
 }
