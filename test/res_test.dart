@@ -9,6 +9,8 @@ Future<int> throws() async {
 
 Future<int> noThrow() async => 0;
 
+Future<int?> noThrowNullable() async => null;
+
 Result<void, String> voidOk() => const Result.ok();
 
 Result<void, String> voidError() => const Result.err('Error');
@@ -67,6 +69,16 @@ void main() {
       );
       expect(result.isError, isTrue);
       expect(result.error, isA<String>());
+    });
+
+    test('nullable ok value', () async {
+      final result = await Result.fromFuture(
+        noThrowNullable(),
+        error: (e, s) => '$e $s',
+      );
+
+      expect(result.isError, isFalse);
+      expect(result.value, isNull);
     });
   });
 }

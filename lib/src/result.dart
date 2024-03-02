@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 class Result<R, S> {
   /// Create a result with a [value]
   const Result.ok([this._value])
-      : assert(_value != null || Future<R> == Future<void>),
+      : assert(_value != null || null is R || Future<R> == Future<void>),
         _error = null;
 
   /// Create a Result with an [error]
@@ -53,9 +53,12 @@ class Result<R, S> {
   /// Check if this [Result] contains an error
   bool get isError => _error != null;
 
+  /// Opposite of [isError]
+  bool get isNotError => _error == null;
+
   /// Get the value from this [Result]. This will throw error if this [Result]
   /// is an error. Check [isError] before accessing this.
-  R get value => _value!;
+  R get value => _value as R;
 
   /// Get the error from this [Result]. This will throw error if this [Result]
   /// has a value instead. Check [isError] before accessing this.
