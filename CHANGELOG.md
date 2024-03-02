@@ -1,3 +1,8 @@
+## 1.3.0
+
+- add isNotError getter
+- value can be nullable
+
 ## 1.2.1
 
 - add toString method
