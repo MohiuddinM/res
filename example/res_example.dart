@@ -29,7 +29,9 @@ Future<Result<int, String>> functionThatDoesNotThrow() async {
 }
 
 void main() async {
-  final result = await functionThatDoesNotThrow();
+  final result = await functionThatDoesNotThrow()
+      .flatMap((_) => const Result.ok(0))
+      .flatMap((_) => const Result.ok(0));
 
   // Or
   // final result = Result.fromFuture(

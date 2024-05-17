@@ -64,6 +64,12 @@ class Result<R, S> {
   /// has a value instead. Check [isError] before accessing this.
   S get error => _error!;
 
+  /// The flatMap function allows chaining of operations that return a [Result].
+  /// If this Result is [value], it applies [f] to the value inside.
+  /// If this Result is [error], it returns the error.
+  Result<U, S> flatMap<U>(Result<U, S> Function(R) f) =>
+      isError ? Result.err(error) : f(value);
+
   @override
   bool operator ==(Object other) =>
       other is Result<R, S> && other._value == _value && other._error == _error;
@@ -73,4 +79,11 @@ class Result<R, S> {
 
   @override
   String toString() => isError ? 'Result.err($error)' : 'Result.ok($value)';
+}
+
+/// Extension method on Future<Result>
+extension FutureResultX<R, S> on Future<Result<R, S>> {
+  /// Called flatMap on result after resolving the result future
+  Future<Result<R, S>> flatMap(Result<R, S> Function(R) f) async =>
+      (await this).flatMap(f);
 }

@@ -1,3 +1,7 @@
+## 1.4.0
+
+- add flatMap
+ 
 ## 1.3.0
 
 - add isNotError getter

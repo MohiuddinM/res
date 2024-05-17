@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:res/res.dart';
 import 'package:test/test.dart';
 
-Future<int> throws() async {
+Future<int> throwError() async {
   throw Error();
 }
 
@@ -21,6 +21,10 @@ Future<void> futureVoidError() async {
   throw Error();
 }
 
+Result<int, String> intError() => const Result.err('error');
+
+Result<int, String> intOk([int v = 0]) => Result.ok(v);
+
 void main() {
   group('Result', () {
     test('return value on success', () async {
@@ -34,7 +38,7 @@ void main() {
 
     test('return error on error', () async {
       final result = await Result.fromFuture(
-        throws(),
+        throwError(),
         error: (e, s) => '$e $s',
       );
       expect(result.isError, isTrue);
@@ -79,6 +83,29 @@ void main() {
 
       expect(result.isError, isFalse);
       expect(result.value, isNull);
+    });
+
+    test('ok assertion test', () async {
+      expect(Result<int, String>.ok, throwsA(isA<AssertionError>()));
+      expect(Result<int?, String>.ok, returnsNormally);
+    });
+
+    test('flatMap works', () async {
+      final errorCase = intOk()
+          .flatMap((v) => Result.ok(v++))
+          .flatMap((v) => intError())
+          .flatMap((v) {
+        assert(false);
+        return Result.ok(v++);
+      });
+      expect(errorCase.isError, isTrue);
+      expect(errorCase.error, 'error');
+
+      final okCase = intOk()
+          .flatMap((v) => Result.ok(++v))
+          .flatMap((v) => Result.ok(++v))
+          .flatMap((v) => Result.ok(++v));
+      expect(okCase.value, 3);
     });
   });
 }
