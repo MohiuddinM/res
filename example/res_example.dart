@@ -34,10 +34,12 @@ void main() async {
       .flatMap((_) => const Result.ok(0));
 
   // Or
-  // final result = Result.fromFuture(
+  // final result = Result.ofFuture(
   //   functionThatCanThrowError(),
   //   error: (e, s) => '$e $s',
-  // );
+  // )
+  // .flatMap((_) => const Result.ok(0))
+  // .flatMap((_) => const Result.ok(0));
 
   if (result.isError) {
     return print('Error');
