@@ -32,18 +32,13 @@ class Result<R, S> {
     }
   }
 
-  @Deprecated('use Result.ofFuture')
   /// Create a [Result] from a [Future].
+  @Deprecated('use Result.ofFuture')
   static Future<Result<R, S>> fromFuture<R, S>(
-      Future<R> future, {
-        required S Function(dynamic e, StackTrace s) error,
-      }) async {
-    try {
-      return Result<R, S>.ok(await future);
-    } catch (e, s) {
-      return Result<R, S>.err(error(e, s));
-    }
-  }
+    Future<R> future, {
+    required S Function(dynamic e, StackTrace s) error,
+  }) =>
+      Result.ofFuture(future, error: error);
 
   /// Create a [Result] from a callback that returns a [Future].
   ///
