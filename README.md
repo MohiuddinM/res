@@ -6,6 +6,32 @@ Result class like many other but this one can return void type too, and does not
 
 ## Usage
 
+### Wrap a function that can throw an error:
+```dart
+Result.of(
+  () {
+    final n = Random().nextInt(10);
+
+    if (n < 5) {
+      throw RangeError(n);
+    }
+
+    return n;
+  },
+  error: (e, s) => e.toString(),
+);
+```
+
+### Or wrap a future that can throw an error:
+```dart
+Result.ofFuture(
+  functionThatCanThrowError(),
+  error: (e, s) => e.toString(),
+);
+```
+
+
+### Or catch error manually
 ```dart
 Future<int> functionThatCanThrowError() async {
   final n = Random().nextInt(10);
@@ -23,22 +49,10 @@ Future<Result<int, String>> functionThatDoesNotThrow() async {
   } catch (e, s) {
     return Result.err(e.toString() + s.toString());
   }
-
-  // Or shorter
-  return Result.fromFuture(
-    functionThatCanThrowError(),
-    error: (e, s) => 'Out of Range',
-  );
 }
 
 void main() async {
   final result = await functionThatDoesNotThrow();
-
-  // Or
-  // final result = Result.fromFuture(
-  //   functionThatCanThrowError(),
-  //   error: (e, s) => '$e $s',
-  // );
 
   if (result.isError) {
     return print('Error');
