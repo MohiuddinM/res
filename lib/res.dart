@@ -1,4 +1,4 @@
 /// Result class library
-library res;
+library;
 
 export 'src/result.dart';
