@@ -1,3 +1,8 @@
+## 1.5.0
+
+- add Result.of
+- add Result.ofFuture
+
 ## 1.4.0
 
 - add flatMap
