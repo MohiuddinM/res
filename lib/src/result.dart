@@ -17,14 +17,27 @@ class Result<R, S> {
         _value = null,
         _error = error;
 
-  /// Create a [Result] from a [Future].
+  /// Wraps a Future result into a [Result].
   ///
   /// If [future] completes successfully then [Result] will contain its value,
   /// and if the [future] fails then its error will be contained in [Result]
-  static Future<Result<R, S>> fromFuture<R, S>(
+  static Future<Result<R, S>> ofFuture<R, S>(
     Future<R> future, {
     required S Function(dynamic e, StackTrace s) error,
   }) async {
+    try {
+      return Result<R, S>.ok(await future);
+    } catch (e, s) {
+      return Result<R, S>.err(error(e, s));
+    }
+  }
+
+  @Deprecated('use Result.ofFuture')
+  /// Create a [Result] from a [Future].
+  static Future<Result<R, S>> fromFuture<R, S>(
+      Future<R> future, {
+        required S Function(dynamic e, StackTrace s) error,
+      }) async {
     try {
       return Result<R, S>.ok(await future);
     } catch (e, s) {
@@ -36,12 +49,29 @@ class Result<R, S> {
   ///
   /// If [future] completes successfully then [Result] will contain its value,
   /// and if the [future] fails then its error will be contained in [Result]
+  @Deprecated('use Result.of')
   static Future<Result<R, S>> fromAsyncCallback<R, S>(
     Future<R> Function() future, {
     required S Function(dynamic e, StackTrace s) error,
   }) async {
     try {
       return Result<R, S>.ok(await future.call());
+    } catch (e, s) {
+      return Result<R, S>.err(error(e, s));
+    }
+  }
+
+  /// Wraps a function that can throw an error and returns a [Result].
+  ///
+  /// If the wrapped function [func] executes successfully then [Result] will
+  /// contain its value, and if the [func] fails then its error will be
+  /// contained in [Result]
+  static Future<Result<R, S>> of<R, S>(
+    FutureOr<R> Function() func, {
+    required S Function(dynamic e, StackTrace s) error,
+  }) async {
+    try {
+      return Result<R, S>.ok(await func.call());
     } catch (e, s) {
       return Result<R, S>.err(error(e, s));
     }
