@@ -1,3 +1,7 @@
+## 1.5.1
+
+- fix Future<Result> flatMap
+
 ## 1.5.0
 
 - add Result.of
