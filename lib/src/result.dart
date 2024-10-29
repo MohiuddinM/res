@@ -106,9 +106,9 @@ class Result<R, S> {
   String toString() => isError ? 'Result.err($error)' : 'Result.ok($value)';
 }
 
-/// Extension method on Future<Result>
-extension FutureResultX<R, S> on Future<Result<R, S>> {
+/// Extension method on Future of Result
+extension FutureResultX<R, S, T> on Future<Result<R, S>> {
   /// Called flatMap on result after resolving the result future
-  Future<Result<R, S>> flatMap(Result<R, S> Function(R) f) async =>
+  Future<Result<T, S>> flatMap(Result<T, S> Function(R) f) async =>
       (await this).flatMap(f);
 }
