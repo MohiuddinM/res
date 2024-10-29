@@ -107,8 +107,8 @@ class Result<R, S> {
 }
 
 /// Extension method on Future of Result
-extension FutureResultX<R, S, T> on Future<Result<R, S>> {
+extension FutureResultX<R, S> on Future<Result<R, S>> {
   /// Called flatMap on result after resolving the result future
-  Future<Result<T, S>> flatMap(Result<T, S> Function(R) f) async =>
+  Future<Result<T, S>> flatMap<T>(Result<T, S> Function(R) f) async =>
       (await this).flatMap(f);
 }
