@@ -1,3 +1,7 @@
+## 1.5.2
+
+- minor fixes
+
 ## 1.5.1
 
 - fix Future<Result> flatMap
