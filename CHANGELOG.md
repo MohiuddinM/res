@@ -1,3 +1,7 @@
+## 1.5.3
+
+- future flatMap can take async function
+
 ## 1.5.2
 
 - minor fixes

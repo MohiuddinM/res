@@ -1,6 +1,6 @@
 name: res
 description: Result class that stops errors from throwing by returning either a value or an error
-version: 1.5.2
+version: 1.5.3
 repository: https://github.com/mohiuddinm/res
 
 environment:
